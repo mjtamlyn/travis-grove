@@ -4,11 +4,13 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
+from .views import Main
+
 
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^$', 'travis_grove.views.main'),
+    url(r'^$', Main.as_view()),
     url(r'^admin/', include(admin.site.urls)),
 )
 
