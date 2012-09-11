@@ -1,4 +1,4 @@
-# Django settings for practicals project.
+# Django settings for travis-grove project.
 import os
 
 import dj_database_url
@@ -13,7 +13,7 @@ DATABASES = {'default': dj_database_url.config(default='postgres://localhost/tra
 ADMINS = (('Admin', 'marc.tamlyn@gmail.com'),)
 MANAGERS = ADMINS
 ADMIN_EMAILS = zip(*ADMINS)[1]
-EMAIL_SUBJECT_PREFIX = '[practicals] '
+EMAIL_SUBJECT_PREFIX = '[travis_grove] '
 SERVER_EMAIL = DEFAULT_FROM_EMAIL = 'marc.tamlyn@gmail.com'
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend')
 EMAIL_HOST = 'smtp.sendgrid.net'
