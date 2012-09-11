@@ -11,6 +11,8 @@ class Main(TemplateView):
     template_name = 'home.html'
 
     def post(self, request, *args, **kwargs):
+        print 'Received post request from travis'
+        print 'data: %s' % request.body
         data = json.loads(request.body)
 
         # get project or go away
@@ -18,6 +20,8 @@ class Main(TemplateView):
             project = Project.objects.get(github_url=data['respository']['url'])
         except Project.DoesNotExist:
             return HttpResponseBadRequest('No project for name {name}'.format(data['respository']['url']))
+
+        print 'project identified as %s' % project
 
         # set up user
         author_name = data['author_name']
@@ -32,6 +36,7 @@ class Main(TemplateView):
         message = pass_message if data['status_message'] == 'Passed' else fail_message
         message = message.format(**{'user': user, 'project': project.github_url})
 
+        print 'sending message "%s" to grove' % message
         # send message
         requests.post(
                 'https://grove.io/api/notice/{0}/'.format(project.token),
@@ -41,5 +46,7 @@ class Main(TemplateView):
                     'image_url': 'https://secure.gravatar.com/avatar/eaafec56c36c18928c31d7c5d7126d10',
                 }
         )
+        print 'all done'
+        print 'data: %s' % request.body
 
         return HttpResponse('ok')
