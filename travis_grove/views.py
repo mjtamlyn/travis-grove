@@ -1,6 +1,8 @@
 import json
 
 from django.http import HttpResponse, HttpResponseBadRequest
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 import requests
 
@@ -10,6 +12,7 @@ from .models import Project, User
 class Main(TemplateView):
     template_name = 'home.html'
 
+    @method_decorator(csrf_exempt)
     def post(self, request, *args, **kwargs):
         print 'Received post request from travis'
         print 'data: %s' % request.body
